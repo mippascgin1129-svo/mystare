@@ -1,1020 +1,1044 @@
 <!doctype html>
 <html lang="zh-TW">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>不只是霧眉 - 服務資訊</title>
-  <script src="/_sdk/element_sdk.js"></script>
-  <style>
-    body {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
-      background: #faf7f4;
-      color: #6b5d54;
-      width: 100%;
-      height: 100%;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    .app-wrapper {
-      width: 100%;
-      min-height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Header */
-    .header {
-      background: linear-gradient(135deg, #d9cec3 0%, #c9bdb0 100%);
-      padding: 24px 20px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header h1 {
-      margin: 0 0 8px 0;
-      font-size: 28px;
-      color: #fff;
-      font-weight: 700;
-      letter-spacing: 2px;
-    }
-
-    .header .tagline {
-      margin: 0 0 16px 0;
-      font-size: 14px;
-      color: #fff;
-      opacity: 0.95;
-      font-weight: 300;
-      letter-spacing: 1px;
-    }
-
-    .social-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .social-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 10px 20px;
-      background: #fff;
-      color: #6b5d54;
-      text-decoration: none;
-      border-radius: 25px;
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    .social-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-
-    /* Tabs */
-    .tabs-container {
-      background: #fff;
-      position: sticky;
-      top: 140px;
-      z-index: 99;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .tabs {
-      display: flex;
-      overflow-x: auto;
-      border-bottom: 2px solid #f5f0eb;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-
-    .tabs::-webkit-scrollbar {
-      display: none;
-    }
-
-    .tab {
-      flex: 1;
-      min-width: 100px;
-      padding: 16px 12px;
-      background: #fff;
-      border: none;
-      color: #6b5d54;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border-bottom: 3px solid transparent;
-      white-space: nowrap;
-    }
-
-    .tab:hover {
-      background: #f5f0eb;
-    }
-
-    .tab.active {
-      color: #d9cec3;
-      border-bottom-color: #d9cec3;
-      background: #faf7f4;
-    }
-
-    /* Content */
-    .content-wrapper {
-      flex: 1;
-      padding: 24px 16px 40px;
-      max-width: 1000px;
-      margin: 0 auto;
-      width: 100%;
-    }
-
-    .tab-content {
-      display: none;
-      animation: fadeIn 0.4s ease;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Cards */
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-    }
-
-    .card h2 {
-      margin: 0 0 16px 0;
-      font-size: 22px;
-      color: #d9cec3;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .card h3 {
-      margin: 20px 0 12px 0;
-      font-size: 18px;
-      color: #6b5d54;
-      font-weight: 600;
-    }
-
-    .card p {
-      margin: 8px 0;
-      line-height: 1.8;
-      font-size: 15px;
-    }
-
-    .card ul {
-      margin: 12px 0;
-      padding-left: 24px;
-    }
-
-    .card li {
-      margin: 8px 0;
-      line-height: 1.8;
-      font-size: 15px;
-    }
-
-    /* Price Table */
-    .price-item {
-      background: #f5f0eb;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 16px;
-      border-left: 4px solid #d9cec3;
-    }
-
-    .price-item h4 {
-      margin: 0 0 12px 0;
-      font-size: 19px;
-      color: #d9cec3;
-      font-weight: 700;
-    }
-
-    .price-original {
-      font-size: 16px;
-      color: #999;
-      text-decoration: line-through;
-      margin-right: 12px;
-    }
-
-    .price-sale {
-      font-size: 24px;
-      color: #d9cec3;
-      font-weight: 700;
-    }
-
-    .price-detail {
-      margin: 8px 0;
-      font-size: 14px;
-      line-height: 1.8;
-    }
-
-    .price-highlight {
-      background: #fff;
-      padding: 12px;
-      border-radius: 8px;
-      margin-top: 12px;
-      font-size: 14px;
-      line-height: 1.8;
-    }
-
-    .badge {
-      display: inline-block;
-      background: #d9cec3;
-      color: #fff;
-      padding: 4px 12px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 600;
-      margin-left: 8px;
-    }
-
-    /* Steps */
-    .steps {
-      display: grid;
-      gap: 16px;
-      margin: 20px 0;
-    }
-
-    .step {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      background: #f5f0eb;
-      padding: 16px;
-      border-radius: 12px;
-    }
-
-    .step-number {
-      flex-shrink: 0;
-      width: 36px;
-      height: 36px;
-      background: #d9cec3;
-      color: #fff;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 16px;
-    }
-
-    .step-content {
-      flex: 1;
-    }
-
-    .step-content h4 {
-      margin: 0 0 4px 0;
-      font-size: 16px;
-      color: #6b5d54;
-    }
-
-    .step-content p {
-      margin: 0;
-      font-size: 14px;
-      color: #8b7d74;
-    }
-
-    /* Alert Box */
-    .alert-box {
-      background: #fff3cd;
-      border-left: 4px solid #ffc107;
-      padding: 16px;
-      border-radius: 8px;
-      margin: 16px 0;
-    }
-
-    .alert-box strong {
-      color: #856404;
-      font-size: 16px;
-    }
-
-    .alert-box p {
-      margin: 8px 0 0 0;
-      color: #856404;
-      font-size: 14px;
-    }
-
-    /* Info Box */
-    .info-box {
-      background: #e3f2fd;
-      border-left: 4px solid #2196f3;
-      padding: 16px;
-      border-radius: 8px;
-      margin: 16px 0;
-    }
-
-    .info-box strong {
-      color: #0d47a1;
-      font-size: 16px;
-    }
-
-    .info-box p {
-      margin: 8px 0 0 0;
-      color: #0d47a1;
-      font-size: 14px;
-      line-height: 1.8;
-    }
-
-    /* Accordion */
-    .accordion-item {
-      background: #fff;
-      border: 1px solid #f5f0eb;
-      border-radius: 12px;
-      margin-bottom: 12px;
-      overflow: hidden;
-    }
-
-    .accordion-header {
-      width: 100%;
-      padding: 18px 20px;
-      background: #faf7f4;
-      border: none;
-      text-align: left;
-      font-size: 16px;
-      font-weight: 600;
-      color: #6b5d54;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: all 0.3s ease;
-    }
-
-    .accordion-header:hover {
-      background: #f5f0eb;
-    }
-
-    .accordion-header.active {
-      background: #d9cec3;
-      color: #fff;
-    }
-
-    .accordion-icon {
-      font-size: 18px;
-      transition: transform 0.3s ease;
-    }
-
-    .accordion-header.active .accordion-icon {
-      transform: rotate(180deg);
-    }
-
-    .accordion-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.4s ease;
-    }
-
-    .accordion-content.active {
-      max-height: 500px;
-    }
-
-    .accordion-body {
-      padding: 20px;
-      font-size: 15px;
-      line-height: 1.8;
-      color: #6b5d54;
-    }
-
-    /* Care Grid */
-    .care-grid {
-      display: grid;
-      gap: 16px;
-      margin: 20px 0;
-    }
-
-    .care-card {
-      background: linear-gradient(135deg, #f5f0eb 0%, #faf7f4 100%);
-      border-radius: 12px;
-      padding: 20px;
-      border-left: 4px solid #d9cec3;
-    }
-
-    .care-card h4 {
-      margin: 0 0 12px 0;
-      font-size: 18px;
-      color: #d9cec3;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .care-card ul {
-      margin: 0;
-      padding-left: 20px;
-    }
-
-    .care-card li {
-      margin: 8px 0;
-      line-height: 1.8;
-      font-size: 14px;
-    }
-
-    /* Responsive */
-    @media (min-width: 768px) {
-      .header h1 {
-        font-size: 32px;
-      }
-
-      .header .tagline {
-        font-size: 16px;
-      }
-
-      .tabs-container {
-        top: 155px;
-      }
-
-      .tab {
-        font-size: 16px;
-        padding: 18px 16px;
-      }
-
-      .content-wrapper {
-        padding: 32px 24px 48px;
-      }
-
-      .card {
-        padding: 32px;
-      }
-
-      .steps {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .care-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .steps {
-        grid-template-columns: repeat(4, 1fr);
-      }
-    }
-  </style>
-  <style>@view-transition { navigation: auto; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
- </head>
- <body>
-  <div class="app-wrapper"><!-- Header -->
-   <header class="header">
-    <h1 id="company-name">不只是霧眉</h1>
-    <p class="tagline" id="tagline">我們是溫度的存在</p>
-    <div class="social-buttons"><a href="https://www.instagram.com/unnni_1331/" target="_blank" rel="noopener noreferrer" class="social-btn" id="instagram-link"> 📷 Instagram </a> <a href="https://lin.ee/L7UvZ3W" target="_blank" rel="noopener noreferrer" class="social-btn" id="line-link"> 💬 LINE 諮詢 </a>
-    </div>
-   </header><!-- Tabs -->
-   <div class="tabs-container">
-    <div class="tabs"><button class="tab active" data-tab="price">💰 價目表</button> <button class="tab" data-tab="booking">📋 預約須知</button> <button class="tab" data-tab="faq">❓ 常見問題</button> <button class="tab" data-tab="aftercare">💆 術後照顧</button> <button class="tab" data-tab="before">⚠️ 術前準備</button>
-    </div>
-   </div><!-- Content -->
-   <div class="content-wrapper"><!-- 價目表 -->
-    <div id="price" class="tab-content active">
-     <div class="card">
-      <h2>💰 服務價目表</h2>
-      <div class="alert-box"><strong>⚠️ 特別說明</strong>
-       <p>此特殊活動無法使用其他折扣</p>
-      </div>
-      <h3>🌟 主理人老師</h3>
-      <div class="price-item">
-       <h4>霧眉服務 <span class="badge">12月限定</span></h4>
-       <div><span class="price-original">原價 $12,000</span> <span class="price-sale">$9,600</span>
-       </div>
-       <div class="price-detail">
-        ✨ 八折優惠（含補色）
-       </div>
-       <div class="price-detail">
-        💎 全額付清再打 98 折
-       </div>
-       <div class="price-highlight"><strong>🎁 12/8 前早鳥專屬禮遇：</strong><br>
-         • 再折 $500<br>
-         • 贈送手部光療美甲單色（不含卸甲）<br><br><strong>✨ 2025 獨家附贈（價值超過 $3,000）：</strong><br>
-         • 人類圖解讀一次（30 分鐘）<br>
-         • 卡牌解惑一問<br><small style="color: #999;">*可同時併選 *附贈無退折扣 *三個月內使用完畢</small>
-       </div>
-      </div>
-      <h3>🌸 小菁實習老師（非小白）</h3>
-      <div class="price-item">
-       <h4>作品麻豆</h4>
-       <div>
-        <span class="price-sale">$2,500</span>
-       </div>
-       <div class="price-detail">
-        ✨ 含補色
-       </div>
-      </div>
-      <div class="price-item">
-       <h4>考核麻豆 <span class="badge">終身方案</span></h4>
-       <div>
-        <span class="price-sale">$3,333</span>
-       </div>
-       <div class="price-detail">
-        ✨ 考核當次含隔月補色考核
-       </div>
-       <div class="price-detail">
-        💎 享有終身方案（一年內補色 $1,500）
-       </div>
-      </div>
-      <h3>🌺 小余實習老師（非小白）</h3>
-      <div class="price-item">
-       <h4>作品麻豆</h4>
-       <div>
-        <span class="price-sale">$1,500</span>
-       </div>
-       <div class="price-detail">
-        ✨ 含補色
-       </div>
-      </div>
-      <div class="price-item">
-       <h4>考核麻豆 <span class="badge">終身方案</span></h4>
-       <div>
-        <span class="price-sale">$3,888</span>
-       </div>
-       <div class="price-detail">
-        ✨ 含隔月補色考核
-       </div>
-       <div class="price-detail">
-        💎 享有終身方案（一年內半價補色）
-       </div>
-      </div>
-     </div>
-    </div><!-- 預約須知 -->
-    <div id="booking" class="tab-content">
-     <div class="card">
-      <h2>📋 預約須知</h2>
-      <h3>📝 預約流程</h3>
-      <div class="steps">
-       <div class="step">
-        <div class="step-number">
-         1
-        </div>
-        <div class="step-content">
-         <h4>LINE 諮詢</h4>
-         <p>加入官方帳號進行諮詢</p>
-        </div>
-       </div>
-       <div class="step">
-        <div class="step-number">
-         2
-        </div>
-        <div class="step-content">
-         <h4>預約時間</h4>
-         <p>選擇合適的服務時段</p>
-        </div>
-       </div>
-       <div class="step">
-        <div class="step-number">
-         3
-        </div>
-        <div class="step-content">
-         <h4>支付訂金</h4>
-         <p>確認預約並完成付款</p>
-        </div>
-       </div>
-       <div class="step">
-        <div class="step-number">
-         4
-        </div>
-        <div class="step-content">
-         <h4>到店服務</h4>
-         <p>30天後約補色<br>
-          60天內完成</p>
-        </div>
-       </div>
-      </div>
-      <h3>⏰ 時間規範</h3>
-      <ul>
-       <li>準時到達即可，不必提前 10-20 分鐘</li>
-       <li><strong>遲到處理方式：</strong>
-        <ul>
-         <li>10 分鐘內：加收 $500</li>
-         <li>15 分鐘以上：加收 $1,000 並當下取消改約（免費補色亦同）</li>
-        </ul></li>
-      </ul>
-      <h3>🔄 改約規範</h3>
-      <div class="alert-box"><strong>⚠️ 當天消失沒收全額訂金</strong>
-      </div>
-      <ul>
-       <li><strong>24 小時內：</strong>沒收 80% 訂金</li>
-       <li><strong>2 天內：</strong>沒收 70% 訂金</li>
-       <li><strong>3 天內：</strong>沒收 60% 訂金</li>
-       <li><small>（免費補色亦同，需補上金額方可改約）</small></li>
-      </ul>
-      <div class="info-box"><strong>🌟 特殊例外（需能提出證明）</strong>
-       <p>• 本人或家人生病、開刀住院<br>
-         • 家人過世<br>
-         • 懷孕 / 身體狀況不允許<br>
-         • 其他不可抗力因素<br>
-         → 視情況協助改時間</p>
-      </div>
-      <h3>💳 付款方式</h3>
-      <ul>
-       <li>💵 現金</li>
-       <li>🏦 銀行轉帳</li>
-      </ul>
-      <div class="info-box"><strong>💬 小提醒</strong>
-       <p>規章只是避免麻煩，減少之間的誤會糾紛 ❤️</p>
-      </div>
-     </div>
-    </div><!-- 常見問題 -->
-    <div id="faq" class="tab-content">
-     <div class="card">
-      <h2>❓ 常見問題</h2>
-      <div class="accordion-item"><button class="accordion-header"> <span>霧眉會很痛嗎？</span> <span class="accordion-icon">▼</span> </button>
-       <div class="accordion-content">
-        <div class="accordion-body">
-         過程中會使用專業舒緩產品，大部分顧客反映只有輕微刺痛感，類似拔眉毛的感覺。我們會依個人耐受度調整操作節奏，讓您在最舒適的狀態下完成服務。
-        </div>
-       </div>
-      </div>
-      <div class="accordion-item"><button class="accordion-header"> <span>霧眉可以維持多久？</span> <span class="accordion-icon">▼</span> </button>
-       <div class="accordion-content">
-        <div class="accordion-body">
-         一般可維持 1-3 年，實際時間因個人膚質、生活習慣而異。油性肌膚代謝較快，建議定期補色維持最佳效果。我們提供完整的補色方案，讓您的眉型隨時保持完美狀態。
-        </div>
-       </div>
-      </div>
-      <div class="accordion-item"><button class="accordion-header"> <span>第一次做霧眉需要補色嗎？</span> <span class="accordion-icon">▼</span> </button>
-       <div class="accordion-content">
-        <div class="accordion-body">
-         是的，第一次操作後建議 30-45 天進行補色。首次操作是打底，補色能讓顏色更均勻飽滿，效果更持久。我們的方案都含補色服務，讓您無後顧之憂。
-        </div>
-       </div>
-      </div>
-      <div class="accordion-item"><button class="accordion-header"> <span>霧眉後多久可以碰水？</span> <span class="accordion-icon">▼</span> </button>
-       <div class="accordion-content">
-        <div class="accordion-body">
-         建議術後 7 天內避免直接碰水，洗臉時請繞過眉毛部位，或使用棉片輕輕擦拭。這段期間請勿游泳、泡溫泉、蒸臉，以確保最佳癒合效果。
-        </div>
-       </div>
-      </div>
-      <div class="accordion-item"><button class="accordion-header"> <span>什麼膚質不適合做霧眉？</span> <span class="accordion-icon">▼</span> </button>
-       <div class="accordion-content">
-        <div class="accordion-body">
-         孕婦、哺乳期、蟹足腫體質、嚴重皮膚疾病、正在服用特定藥物（如A酸）者不建議施作。若有疑慮，歡迎先透過 LINE 諮詢，我們會依您的狀況給予專業建議。
-        </div>
-       </div>
-      </div>
-      <div class="accordion-item"><button class="accordion-header"> <span>可以自己選擇眉型和顏色嗎？</span> <span class="accordion-icon">▼</span> </button>
-       <div class="accordion-content">
-        <div class="accordion-body">
-         當然可以！我們會根據您的臉型、五官比例、膚色和喜好進行設計。操作前會仔細溝通並畫出草圖，確認滿意後才開始施作。您的意見是我們最重視的。
-        </div>
-       </div>
-      </div>
-      <div class="accordion-item"><button class="accordion-header"> <span>霧眉後需要特別保養嗎？</span> <span class="accordion-icon">▼</span> </button>
-       <div class="accordion-content">
-        <div class="accordion-body">
-         前 7 天是關鍵期，需要塗抹修護膏並避免碰水。結痂時切勿摳抓，讓其自然脫落。術後會提供完整的照護說明，只要按照指示保養，就能擁有漂亮持久的眉毛。
-        </div>
-       </div>
-      </div>
-     </div>
-    </div><!-- 術後照顧 -->
-    <div id="aftercare" class="tab-content">
-     <div class="card">
-      <h2>💆 術後照顧</h2>
-      <div class="care-grid">
-       <div class="care-card">
-        <h4>🚿 清潔護理</h4>
-        <ul>
-         <li>術後 7 天內避免眉毛直接碰水</li>
-         <li>洗臉時請繞過眉毛部位</li>
-         <li>可用濕棉片輕輕擦拭周圍</li>
-         <li>避免使用洗面乳接觸眉毛</li>
-         <li>禁止游泳、泡溫泉、蒸臉</li>
-        </ul>
-       </div>
-       <div class="care-card">
-        <h4>💊 藥膏使用</h4>
-        <ul>
-         <li>每天早晚各塗抹修護膏一次</li>
-         <li>薄薄一層即可，不要太厚</li>
-         <li>使用乾淨棉棒塗抹</li>
-         <li>保持眉毛部位乾燥清爽</li>
-         <li>持續使用至結痂完全脫落</li>
-        </ul>
-       </div>
-       <div class="care-card">
-        <h4>⚠️ 注意事項</h4>
-        <ul>
-         <li>結痂時絕對不可摳抓或撕除</li>
-         <li>讓痂皮自然脫落（約 3-7 天）</li>
-         <li>避免用手觸摸眉毛</li>
-         <li>暫停使用酸類保養品</li>
-         <li>避免陽光直射，外出請戴帽</li>
-        </ul>
-       </div>
-       <div class="care-card">
-        <h4>🍎 生活習慣</h4>
-        <ul>
-         <li>避免食用辛辣刺激性食物</li>
-         <li>暫停飲酒和吸菸</li>
-         <li>充足睡眠，避免熬夜</li>
-         <li>多補充水分和維生素</li>
-         <li>保持心情愉快，有助癒合</li>
-        </ul>
-       </div>
-      </div>
-      <div class="alert-box"><strong>🌟 補色時機</strong>
-       <p>首次操作後 30 天可預約補色，最晚請於 60 天內完成補色，以達到最佳效果！</p>
-      </div>
-      <div class="info-box"><strong>💬 有任何問題嗎？</strong>
-       <p>術後若有任何疑問或不適，請立即透過 LINE 聯繫我們，我們會盡快為您解答！</p>
-      </div>
-     </div>
-    </div><!-- 術前準備 -->
-    <div id="before" class="tab-content">
-     <div class="card">
-      <h2>⚠️ 術前準備</h2>
-      <div class="care-grid">
-       <div class="care-card">
-        <h4>📅 提前準備</h4>
-        <ul>
-         <li>術前一週停用酸類保養品（A酸、果酸等）</li>
-         <li>停用眉毛生長液、睫毛生長液</li>
-         <li>如有服用抗凝血藥物請提前告知</li>
-         <li>生理期前後較敏感，建議避開</li>
-         <li>確保當天有充足睡眠</li>
-        </ul>
-       </div>
-       <div class="care-card">
-        <h4>💄 當天注意</h4>
-        <ul>
-         <li>請勿化眉毛妝容</li>
-         <li>可正常保養和上底妝</li>
-         <li>避免飲用酒精性飲料</li>
-         <li>避免空腹，保持良好精神狀態</li>
-         <li>建議穿著舒適寬鬆的衣物</li>
-        </ul>
-       </div>
-       <div class="care-card">
-        <h4>🚫 禁忌事項</h4>
-        <ul>
-         <li>懷孕、哺乳期間不建議施作</li>
-         <li>蟹足腫體質請務必告知</li>
-         <li>眉毛有傷口、發炎請延期</li>
-         <li>嚴重皮膚疾病請先治療</li>
-         <li>對麻藥過敏者請事先說明</li>
-        </ul>
-       </div>
-       <div class="care-card">
-        <h4>📱 記得攜帶</h4>
-        <ul>
-         <li>身分證件（初次需填寫資料）</li>
-         <li>喜歡的眉型參考照片</li>
-         <li>墨鏡或帽子（術後可能略微紅腫）</li>
-         <li>放鬆的心情和信任</li>
-         <li>準時出席（遲到會有額外收費）</li>
-        </ul>
-       </div>
-      </div>
-      <div class="alert-box"><strong>⚠️ 特別提醒</strong>
-       <p>若身體狀況不佳、感冒發燒，建議延期施作。您的健康與安全是我們最重視的！</p>
-      </div>
-      <div class="info-box"><strong>💡 小建議</strong>
-       <p>可以先在家練習您喜歡的眉型，或收集喜歡的眉毛照片，這樣溝通時更能精準呈現您想要的效果唷！</p>
-      </div>
-     </div>
-    </div>
-   </div>
-  </div>
-  <script>
-    // Default configuration
-    const defaultConfig = {
-      company_name: '不只是霧眉',
-      tagline: '我們是溫度的存在',
-      line_url: 'https://lin.ee/L7UvZ3W',
-      instagram_url: 'https://www.instagram.com/unnni_1331/',
-      background_color: '#faf7f4',
-      primary_color: '#d9cec3',
-      secondary_color: '#c9bdb0',
-      text_color: '#6b5d54',
-      accent_color: '#f5f0eb'
-    };
-
-    // Initialize Element SDK
-    async function onConfigChange(config) {
-      // Update company name
-      const companyNameEl = document.getElementById('company-name');
-      if (companyNameEl) {
-        companyNameEl.textContent = config.company_name || defaultConfig.company_name;
-      }
-
-      // Update tagline
-      const taglineEl = document.getElementById('tagline');
-      if (taglineEl) {
-        taglineEl.textContent = config.tagline || defaultConfig.tagline;
-      }
-
-      // Update LINE URL
-      const lineLinkEl = document.getElementById('line-link');
-      if (lineLinkEl) {
-        lineLinkEl.href = config.line_url || defaultConfig.line_url;
-      }
-
-      // Update Instagram URL
-      const instagramLinkEl = document.getElementById('instagram-link');
-      if (instagramLinkEl) {
-        instagramLinkEl.href = config.instagram_url || defaultConfig.instagram_url;
-      }
-
-      // Apply colors
-      const backgroundColor = config.background_color || defaultConfig.background_color;
-      const primaryColor = config.primary_color || defaultConfig.primary_color;
-      const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
-      const textColor = config.text_color || defaultConfig.text_color;
-      const accentColor = config.accent_color || defaultConfig.accent_color;
-
-      document.body.style.background = backgroundColor;
-      document.body.style.color = textColor;
-
-      // Update header gradient
-      const header = document.querySelector('.header');
-      if (header) {
-        header.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
-      }
-
-      // Update all cards
-      document.querySelectorAll('.card h2').forEach(el => {
-        el.style.color = primaryColor;
-      });
-
-      // Update price items
-      document.querySelectorAll('.price-item').forEach(el => {
-        el.style.borderLeftColor = primaryColor;
-        el.style.background = accentColor;
-      });
-
-      document.querySelectorAll('.price-item h4').forEach(el => {
-        el.style.color = primaryColor;
-      });
-
-      document.querySelectorAll('.price-sale').forEach(el => {
-        el.style.color = primaryColor;
-      });
-
-      // Update badges
-      document.querySelectorAll('.badge').forEach(el => {
-        el.style.background = primaryColor;
-      });
-
-      // Update step numbers
-      document.querySelectorAll('.step-number').forEach(el => {
-        el.style.background = primaryColor;
-      });
-
-      document.querySelectorAll('.step').forEach(el => {
-        el.style.background = accentColor;
-      });
-
-      // Update care cards
-      document.querySelectorAll('.care-card').forEach(el => {
-        el.style.borderLeftColor = primaryColor;
-        el.style.background = `linear-gradient(135deg, ${accentColor} 0%, ${backgroundColor} 100%)`;
-      });
-
-      document.querySelectorAll('.care-card h4').forEach(el => {
-        el.style.color = primaryColor;
-      });
-
-      // Update active tab
-      const activeTab = document.querySelector('.tab.active');
-      if (activeTab) {
-        activeTab.style.color = primaryColor;
-        activeTab.style.borderBottomColor = primaryColor;
-        activeTab.style.background = backgroundColor;
-      }
-
-      // Update accordion active state
-      document.querySelectorAll('.accordion-header.active').forEach(el => {
-        el.style.background = primaryColor;
-      });
-    }
-
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig: defaultConfig,
-        onConfigChange: onConfigChange,
-        mapToCapabilities: (config) => ({
-          recolorables: [
-            {
-              get: () => config.background_color || defaultConfig.background_color,
-              set: (value) => {
-                config.background_color = value;
-                window.elementSdk.setConfig({ background_color: value });
-              }
-            },
-            {
-              get: () => config.primary_color || defaultConfig.primary_color,
-              set: (value) => {
-                config.primary_color = value;
-                window.elementSdk.setConfig({ primary_color: value });
-              }
-            },
-            {
-              get: () => config.text_color || defaultConfig.text_color,
-              set: (value) => {
-                config.text_color = value;
-                window.elementSdk.setConfig({ text_color: value });
-              }
-            },
-            {
-              get: () => config.secondary_color || defaultConfig.secondary_color,
-              set: (value) => {
-                config.secondary_color = value;
-                window.elementSdk.setConfig({ secondary_color: value });
-              }
-            },
-            {
-              get: () => config.accent_color || defaultConfig.accent_color,
-              set: (value) => {
-                config.accent_color = value;
-                window.elementSdk.setConfig({ accent_color: value });
-              }
-            }
-          ],
-          borderables: [],
-          fontEditable: undefined,
-          fontSizeable: undefined
-        }),
-        mapToEditPanelValues: (config) => new Map([
-          ['company_name', config.company_name || defaultConfig.company_name],
-          ['tagline', config.tagline || defaultConfig.tagline],
-          ['line_url', config.line_url || defaultConfig.line_url],
-          ['instagram_url', config.instagram_url || defaultConfig.instagram_url]
-        ])
-      });
-    }
-
-    // Tab switching
-    const tabs = document.querySelectorAll('.tab');
-    const tabContents = document.querySelectorAll('.tab-content');
-
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const targetTab = tab.getAttribute('data-tab');
-        
-        // Remove active class from all tabs
-        tabs.forEach(t => t.classList.remove('active'));
-        tabContents.forEach(tc => tc.classList.remove('active'));
-        
-        // Add active class to clicked tab
-        tab.classList.add('active');
-        document.getElementById(targetTab).classList.add('active');
-
-        // Scroll to top
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    });
-
-    // Accordion functionality
-    const accordionHeaders = document.querySelectorAll('.accordion-header');
-
-    accordionHeaders.forEach(header => {
-      header.addEventListener('click', () => {
-        const content = header.nextElementSibling;
-        const isActive = header.classList.contains('active');
-        
-        // Close all accordions
-        accordionHeaders.forEach(h => {
-          h.classList.remove('active');
-          h.nextElementSibling.classList.remove('active');
-        });
-        
-        // Open clicked accordion if it was closed
-        if (!isActive) {
-          header.classList.add('active');
-          content.classList.add('active');
-        }
-      });
-    });
-  </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a886d4b25de6b62',t:'MTc2NDgyMTE0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>不只是霧眉 - 服務資訊</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    /* --- 核心修改區域開始：鎖定頁面滾動 --- */
+    html, body {
+      height: 100%; /* 確保 html 和 body 佔滿整個視窗高度 */
+      overflow: hidden; /* **關鍵：禁止整個頁面滾動** */
+    }
+
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+      background: #faf7f4;
+      color: #6b5d54;
+      width: 100%;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .app-wrapper {
+      width: 100%;
+      height: 100%; /* **關鍵：讓 app-wrapper 佔滿可用高度** */
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #d9cec3 0%, #c9bdb0 100%);
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      /* position: sticky; top: 0; z-index: 100; (在鎖定頁面滾動後，這裡的 sticky 影響變小，但仍保持) */
+      position: relative;
+      z-index: 100;
+    }
+
+    .header h1 {
+      margin: 0 0 8px 0;
+      font-size: 28px;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .header .tagline {
+      margin: 0 0 16px 0;
+      font-size: 14px;
+      color: #fff;
+      opacity: 0.95;
+      font-weight: 300;
+      letter-spacing: 1px;
+    }
+
+    .social-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 20px;
+      background: #fff;
+      color: #6b5d54;
+      text-decoration: none;
+      border-radius: 25px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .social-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    /* --- 新增內容滾動容器樣式 --- */
+    .main-content-scroll {
+      flex: 1; /* **關鍵：佔據 Header 之後的剩餘垂直空間** */
+      overflow-y: auto; /* **關鍵：讓此區域垂直滾動** */
+      min-height: 0; /* flex 項目滾動必須設置 */
+      background: #fff; /* 設定滾動區域的背景色為白色 */
+    }
+    /* --- 核心修改區域結束 --- */
+
+
+    /* Tabs */
+    .tabs-container {
+      background: #fff;
+      position: sticky;
+      top: 0; /* **關鍵：在 main-content-scroll 內固定在頂部** */
+      z-index: 99;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .tabs {
+      display: flex;
+      overflow-x: auto;
+      border-bottom: 2px solid #f5f0eb;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab {
+      flex: 1;
+      min-width: 100px;
+      padding: 16px 12px;
+      background: #fff;
+      border: none;
+      color: #6b5d54;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+    }
+
+    .tab:hover {
+      background: #f5f0eb;
+    }
+
+    .tab.active {
+      color: #d9cec3;
+      border-bottom-color: #d9cec3;
+      background: #faf7f4;
+    }
+
+    /* Content */
+    .content-wrapper {
+      /* flex: 1; 移除，讓內容自然堆疊 */
+      padding: 24px 16px 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+      /* 背景色不需要重複設置，已由 main-content-scroll 處理 */
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Cards */
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .card h2 {
+      margin: 0 0 16px 0;
+      font-size: 22px;
+      color: #d9cec3;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card h3 {
+      margin: 20px 0 12px 0;
+      font-size: 18px;
+      color: #6b5d54;
+      font-weight: 600;
+    }
+
+    .card p {
+      margin: 8px 0;
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .card ul {
+      margin: 12px 0;
+      padding-left: 24px;
+    }
+
+    .card li {
+      margin: 8px 0;
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    /* Price Table */
+    .price-item {
+      background: #f5f0eb;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      border-left: 4px solid #d9cec3;
+    }
+
+    .price-item h4 {
+      margin: 0 0 12px 0;
+      font-size: 19px;
+      color: #d9cec3;
+      font-weight: 700;
+    }
+
+    .price-original {
+      font-size: 16px;
+      color: #999;
+      text-decoration: line-through;
+      margin-right: 12px;
+    }
+
+    .price-sale {
+      font-size: 24px;
+      color: #d9cec3;
+      font-weight: 700;
+    }
+
+    .price-detail {
+      margin: 8px 0;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .price-highlight {
+      background: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 12px;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #d9cec3;
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    /* Steps */
+    .steps {
+      display: grid;
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      background: #f5f0eb;
+      padding: 16px;
+      border-radius: 12px;
+    }
+
+    .step-number {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      background: #d9cec3;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-content h4 {
+      margin: 0 0 4px 0;
+      font-size: 16px;
+      color: #6b5d54;
+    }
+
+    .step-content p {
+      margin: 0;
+      font-size: 14px;
+      color: #8b7d74;
+    }
+
+    /* Alert Box */
+    .alert-box {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 16px;
+      border-radius: 8px;
+      margin: 16px 0;
+    }
+
+    .alert-box strong {
+      color: #856404;
+      font-size: 16px;
+    }
+
+    .alert-box p {
+      margin: 8px 0 0 0;
+      color: #856404;
+      font-size: 14px;
+    }
+
+    /* Info Box */
+    .info-box {
+      background: #e3f2fd;
+      border-left: 4px solid #2196f3;
+      padding: 16px;
+      border-radius: 8px;
+      margin: 16px 0;
+    }
+
+    .info-box strong {
+      color: #0d47a1;
+      font-size: 16px;
+    }
+
+    .info-box p {
+      margin: 8px 0 0 0;
+      color: #0d47a1;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    /* Accordion */
+    .accordion-item {
+      background: #fff;
+      border: 1px solid #f5f0eb;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .accordion-header {
+      width: 100%;
+      padding: 18px 20px;
+      background: #faf7f4;
+      border: none;
+      text-align: left;
+      font-size: 16px;
+      font-weight: 600;
+      color: #6b5d54;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .accordion-header:hover {
+      background: #f5f0eb;
+    }
+
+    .accordion-header.active {
+      background: #d9cec3;
+      color: #fff;
+    }
+
+    .accordion-icon {
+      font-size: 18px;
+      transition: transform 0.3s ease;
+    }
+
+    .accordion-header.active .accordion-icon {
+      transform: rotate(180deg);
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .accordion-content.active {
+      max-height: 500px;
+    }
+
+    .accordion-body {
+      padding: 20px;
+      font-size: 15px;
+      line-height: 1.8;
+      color: #6b5d54;
+    }
+
+    /* Care Grid */
+    .care-grid {
+      display: grid;
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .care-card {
+      background: linear-gradient(135deg, #f5f0eb 0%, #faf7f4 100%);
+      border-radius: 12px;
+      padding: 20px;
+      border-left: 4px solid #d9cec3;
+    }
+
+    .care-card h4 {
+      margin: 0 0 12px 0;
+      font-size: 18px;
+      color: #d9cec3;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .care-card ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .care-card li {
+      margin: 8px 0;
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    /* Responsive */
+    @media (min-width: 768px) {
+      .header h1 {
+        font-size: 32px;
+      }
+
+      .header .tagline {
+        font-size: 16px;
+      }
+
+      .tabs-container {
+        top: 0; /* 保持 top: 0 */
+      }
+
+      .tab {
+        font-size: 16px;
+        padding: 18px 16px;
+      }
+
+      .content-wrapper {
+        padding: 32px 24px 48px;
+      }
+
+      .card {
+        padding: 32px;
+      }
+
+      .steps {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .care-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .steps {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="app-wrapper">   <header class="header">
+    <h1 id="company-name">不只是霧眉</h1>
+    <p class="tagline" id="tagline">我們是溫度的存在</p>
+    <div class="social-buttons"><a href="https://www.instagram.com/unnni_1331/" target="_blank" rel="noopener noreferrer" class="social-btn" id="instagram-link"> 📷 Instagram </a> <a href="https://lin.ee/L7UvZ3W" target="_blank" rel="noopener noreferrer" class="social-btn" id="line-link"> 💬 LINE 諮詢 </a>
+    </div>
+   </header>
+
+      <div class="main-content-scroll">
+
+        <div class="tabs-container">
+     <div class="tabs"><button class="tab active" data-tab="price">💰 價目表</button> <button class="tab" data-tab="booking">📋 預約須知</button> <button class="tab" data-tab="faq">❓ 常見問題</button> <button class="tab" data-tab="aftercare">💆 術後照顧</button> <button class="tab" data-tab="before">⚠️ 術前準備</button>
+     </div>
+    </div>
+   
+        <div class="content-wrapper">     <div id="price" class="tab-content active">
+       <div class="card">
+        <h2>💰 服務價目表</h2>
+        <div class="alert-box"><strong>⚠️ 特別說明</strong>
+         <p>此特殊活動無法使用其他折扣</p>
+        </div>
+        <h3>🌟 主理人老師</h3>
+        <div class="price-item">
+         <h4>霧眉服務 <span class="badge">12月限定</span></h4>
+         <div><span class="price-original">原價 $12,000</span> <span class="price-sale">$9,600</span>
+         </div>
+         <div class="price-detail">
+          ✨ 八折優惠（含補色）
+         </div>
+         <div class="price-detail">
+          💎 全額付清再打 98 折
+         </div>
+         <div class="price-highlight"><strong>🎁 12/8 前早鳥專屬禮遇：</strong><br>
+           • 再折 $500<br>
+           • 贈送手部光療美甲單色（不含卸甲）<br><br><strong>✨ 2025 獨家附贈（價值超過 $3,000）：</strong><br>
+           • 人類圖解讀一次（30 分鐘）<br>
+           • 卡牌解惑一問<br><small style="color: #999;">*可同時併選 *附贈無退折扣 *三個月內使用完畢</small>
+         </div>
+        </div>
+        <h3>🌸 小菁實習老師（非小白）</h3>
+        <div class="price-item">
+         <h4>作品麻豆</h4>
+         <div>
+           <span class="price-sale">$2,500</span>
+         </div>
+         <div class="price-detail">
+          ✨ 含補色
+         </div>
+        </div>
+        <div class="price-item">
+         <h4>考核麻豆 <span class="badge">終身方案</span></h4>
+         <div>
+           <span class="price-sale">$3,333</span>
+         </div>
+         <div class="price-detail">
+          ✨ 考核當次含隔月補色考核
+         </div>
+         <div class="price-detail">
+          💎 享有終身方案（一年內補色 $1,500）
+         </div>
+        </div>
+        <h3>🌺 小余實習老師（非小白）</h3>
+        <div class="price-item">
+         <h4>作品麻豆</h4>
+         <div>
+           <span class="price-sale">$1,500</span>
+         </div>
+         <div class="price-detail">
+          ✨ 含補色
+         </div>
+        </div>
+        <div class="price-item">
+         <h4>考核麻豆 <span class="badge">終身方案</span></h4>
+         <div>
+           <span class="price-sale">$3,888</span>
+         </div>
+         <div class="price-detail">
+          ✨ 含隔月補色考核
+         </div>
+         <div class="price-detail">
+          💎 享有終身方案（一年內半價補色）
+         </div>
+        </div>
+       </div>
+      </div>      <div id="booking" class="tab-content">
+       <div class="card">
+        <h2>📋 預約須知</h2>
+        <h3>📝 預約流程</h3>
+        <div class="steps">
+         <div class="step">
+           <div class="step-number">
+            1
+           </div>
+           <div class="step-content">
+             <h4>LINE 諮詢</h4>
+             <p>加入官方帳號進行諮詢</p>
+           </div>
+         </div>
+         <div class="step">
+           <div class="step-number">
+            2
+           </div>
+           <div class="step-content">
+             <h4>預約時間</h4>
+             <p>選擇合適的服務時段</p>
+           </div>
+         </div>
+         <div class="step">
+           <div class="step-number">
+            3
+           </div>
+           <div class="step-content">
+             <h4>支付訂金</h4>
+             <p>確認預約並完成付款</p>
+           </div>
+         </div>
+         <div class="step">
+           <div class="step-number">
+            4
+           </div>
+           <div class="step-content">
+             <h4>到店服務</h4>
+             <p>30天後約補色<br>
+              60天內完成</p>
+           </div>
+         </div>
+        </div>
+        <h3>⏰ 時間規範</h3>
+        <ul>
+         <li>準時到達即可，不必提前 10-20 分鐘</li>
+         <li><strong>遲到處理方式：</strong>
+           <ul>
+             <li>10 分鐘內：加收 $500</li>
+             <li>15 分鐘以上：加收 $1,000 並當下取消改約（免費補色亦同）</li>
+           </ul></li>
+        </ul>
+        <h3>🔄 改約規範</h3>
+        <div class="alert-box"><strong>⚠️ 當天消失沒收全額訂金</strong>
+        </div>
+        <ul>
+         <li><strong>24 小時內：</strong>沒收 80% 訂金</li>
+         <li><strong>2 天內：</strong>沒收 70% 訂金</li>
+         <li><strong>3 天內：</strong>沒收 60% 訂金</li>
+         <li><small>（免費補色亦同，需補上金額方可改約）</small></li>
+        </ul>
+        <div class="info-box"><strong>🌟 特殊例外（需能提出證明）</strong>
+         <p>• 本人或家人生病、開刀住院<br>
+           • 家人過世<br>
+           • 懷孕 / 身體狀況不允許<br>
+           • 其他不可抗力因素<br>
+           → 視情況協助改時間</p>
+        </div>
+        <h3>💳 付款方式</h3>
+        <ul>
+         <li>💵 現金</li>
+         <li>🏦 銀行轉帳</li>
+        </ul>
+        <div class="info-box"><strong>💬 小提醒</strong>
+         <p>規章只是避免麻煩，減少之間的誤會糾紛 ❤️</p>
+        </div>
+       </div>
+      </div>      <div id="faq" class="tab-content">
+       <div class="card">
+        <h2>❓ 常見問題</h2>
+        <div class="accordion-item"><button class="accordion-header"> <span>霧眉會很痛嗎？</span> <span class="accordion-icon">▼</span> </button>
+         <div class="accordion-content">
+           <div class="accordion-body">
+            過程中會使用專業舒緩產品，大部分顧客反映只有輕微刺痛感，類似拔眉毛的感覺。我們會依個人耐受度調整操作節奏，讓您在最舒適的狀態下完成服務。
+           </div>
+         </div>
+        </div>
+        <div class="accordion-item"><button class="accordion-header"> <span>霧眉可以維持多久？</span> <span class="accordion-icon">▼</span> </button>
+         <div class="accordion-content">
+           <div class="accordion-body">
+            一般可維持 1-3 年，實際時間因個人膚質、生活習慣而異。油性肌膚代謝較快，建議定期補色維持最佳效果。我們提供完整的補色方案，讓您的眉型隨時保持完美狀態。
+           </div>
+         </div>
+        </div>
+        <div class="accordion-item"><button class="accordion-header"> <span>第一次做霧眉需要補色嗎？</span> <span class="accordion-icon">▼</span> </button>
+         <div class="accordion-content">
+           <div class="accordion-body">
+            是的，第一次操作後建議 30-45 天進行補色。首次操作是打底，補色能讓顏色更均勻飽滿，效果更持久。我們的方案都含補色服務，讓您無後顧之憂。
+           </div>
+         </div>
+        </div>
+        <div class="accordion-item"><button class="accordion-header"> <span>霧眉後多久可以碰水？</span> <span class="accordion-icon">▼</span> </button>
+         <div class="accordion-content">
+           <div class="accordion-body">
+            建議術後 7 天內避免直接碰水，洗臉時請繞過眉毛部位，或使用棉片輕輕擦拭。這段期間請勿游泳、泡溫泉、蒸臉，以確保最佳癒合效果。
+           </div>
+         </div>
+        </div>
+        <div class="accordion-item"><button class="accordion-header"> <span>什麼膚質不適合做霧眉？</span> <span class="accordion-icon">▼</span> </button>
+         <div class="accordion-content">
+           <div class="accordion-body">
+            孕婦、哺乳期、蟹足腫體質、嚴重皮膚疾病、正在服用特定藥物（如A酸）者不建議施作。若有疑慮，歡迎先透過 LINE 諮詢，我們會依您的狀況給予專業建議。
+           </div>
+         </div>
+        </div>
+        <div class="accordion-item"><button class="accordion-header"> <span>可以自己選擇眉型和顏色嗎？</span> <span class="accordion-icon">▼</span> </button>
+         <div class="accordion-content">
+           <div class="accordion-body">
+            當然可以！我們會根據您的臉型、五官比例、膚色和喜好進行設計。操作前會仔細溝通並畫出草圖，確認滿意後才開始施作。您的意見是我們最重視的。
+           </div>
+         </div>
+        </div>
+        <div class="accordion-item"><button class="accordion-header"> <span>霧眉後需要特別保養嗎？</span> <span class="accordion-icon">▼</span> </button>
+         <div class="accordion-content">
+           <div class="accordion-body">
+            前 7 天是關鍵期，需要塗抹修護膏並避免碰水。結痂時切勿摳抓，讓其自然脫落。術後會提供完整的照護說明，只要按照指示保養，就能擁有漂亮持久的眉毛。
+           </div>
+         </div>
+        </div>
+       </div>
+      </div>      <div id="aftercare" class="tab-content">
+       <div class="card">
+        <h2>💆 術後照顧</h2>
+        <div class="care-grid">
+         <div class="care-card">
+           <h4>🚿 清潔護理</h4>
+           <ul>
+             <li>術後 7 天內避免眉毛直接碰水</li>
+             <li>洗臉時請繞過眉毛部位</li>
+             <li>可用濕棉片輕輕擦拭周圍</li>
+             <li>避免使用洗面乳接觸眉毛</li>
+             <li>禁止游泳、泡溫泉、蒸臉</li>
+           </ul>
+         </div>
+         <div class="care-card">
+           <h4>💊 藥膏使用</h4>
+           <ul>
+             <li>每天早晚各塗抹修護膏一次</li>
+             <li>薄薄一層即可，不要太厚</li>
+             <li>使用乾淨棉棒塗抹</li>
+             <li>保持眉毛部位乾燥清爽</li>
+             <li>持續使用至結痂完全脫落</li>
+           </ul>
+         </div>
+         <div class="care-card">
+           <h4>⚠️ 注意事項</h4>
+           <ul>
+             <li>結痂時絕對不可摳抓或撕除</li>
+             <li>讓痂皮自然脫落（約 3-7 天）</li>
+             <li>避免用手觸摸眉毛</li>
+             <li>暫停使用酸類保養品</li>
+             <li>避免陽光直射，外出請戴帽</li>
+           </ul>
+         </div>
+         <div class="care-card">
+           <h4>🍎 生活習慣</h4>
+           <ul>
+             <li>避免食用辛辣刺激性食物</li>
+             <li>暫停飲酒和吸菸</li>
+             <li>充足睡眠，避免熬夜</li>
+             <li>多補充水分和維生素</li>
+             <li>保持心情愉快，有助癒合</li>
+           </ul>
+         </div>
+        </div>
+        <div class="alert-box"><strong>🌟 補色時機</strong>
+         <p>首次操作後 30 天可預約補色，最晚請於 60 天內完成補色，以達到最佳效果！</p>
+        </div>
+        <div class="info-box"><strong>💬 有任何問題嗎？</strong>
+         <p>術後若有任何疑問或不適，請立即透過 LINE 聯繫我們，我們會盡快為您解答！</p>
+        </div>
+       </div>
+      </div>      <div id="before" class="tab-content">
+       <div class="card">
+        <h2>⚠️ 術前準備</h2>
+        <div class="care-grid">
+         <div class="care-card">
+           <h4>📅 提前準備</h4>
+           <ul>
+             <li>術前一週停用酸類保養品（A酸、果酸等）</li>
+             <li>停用眉毛生長液、睫毛生長液</li>
+             <li>如有服用抗凝血藥物請提前告知</li>
+             <li>生理期前後較敏感，建議避開</li>
+             <li>確保當天有充足睡眠</li>
+           </ul>
+         </div>
+         <div class="care-card">
+           <h4>💄 當天注意</h4>
+           <ul>
+             <li>請勿化眉毛妝容</li>
+             <li>可正常保養和上底妝</li>
+             <li>避免飲用酒精性飲料</li>
+             <li>避免空腹，保持良好精神狀態</li>
+             <li>建議穿著舒適寬鬆的衣物</li>
+           </ul>
+         </div>
+         <div class="care-card">
+           <h4>🚫 禁忌事項</h4>
+           <ul>
+             <li>懷孕、哺乳期間不建議施作</li>
+             <li>蟹足腫體質請務必告知</li>
+             <li>眉毛有傷口、發炎請延期</li>
+             <li>嚴重皮膚疾病請先治療</li>
+             <li>對麻藥過敏者請事先說明</li>
+           </ul>
+         </div>
+         <div class="care-card">
+           <h4>📱 記得攜帶</h4>
+           <ul>
+             <li>身分證件（初次需填寫資料）</li>
+             <li>喜歡的眉型參考照片</li>
+             <li>墨鏡或帽子（術後可能略微紅腫）</li>
+             <li>放鬆的心情和信任</li>
+             <li>準時出席（遲到會有額外收費）</li>
+           </ul>
+         </div>
+        </div>
+        <div class="alert-box"><strong>⚠️ 特別提醒</strong>
+         <p>若身體狀況不佳、感冒發燒，建議延期施作。您的健康與安全是我們最重視的！</p>
+        </div>
+        <div class="info-box"><strong>💡 小建議</strong>
+         <p>可以先在家練習您喜歡的眉型，或收集喜歡的眉毛照片，這樣溝通時更能精準呈現您想要的效果唷！</p>
+        </div>
+       </div>
+      </div>
+    </div>
+   </div>   </div>   <script>
+    // Default configuration
+    const defaultConfig = {
+      company_name: '不只是霧眉',
+      tagline: '我們是溫度的存在',
+      line_url: 'https://lin.ee/L7UvZ3W',
+      instagram_url: 'https://www.instagram.com/unnni_1331/',
+      background_color: '#faf7f4',
+      primary_color: '#d9cec3',
+      secondary_color: '#c9bdb0',
+      text_color: '#6b5d54',
+      accent_color: '#f5f0eb'
+    };
+
+    // Initialize Element SDK
+    async function onConfigChange(config) {
+      // Update company name
+      const companyNameEl = document.getElementById('company-name');
+      if (companyNameEl) {
+        companyNameEl.textContent = config.company_name || defaultConfig.company_name;
+      }
+
+      // Update tagline
+      const taglineEl = document.getElementById('tagline');
+      if (taglineEl) {
+        taglineEl.textContent = config.tagline || defaultConfig.tagline;
+      }
+
+      // Update LINE URL
+      const lineLinkEl = document.getElementById('line-link');
+      if (lineLinkEl) {
+        lineLinkEl.href = config.line_url || defaultConfig.line_url;
+      }
+
+      // Update Instagram URL
+      const instagramLinkEl = document.getElementById('instagram-link');
+      if (instagramLinkEl) {
+        instagramLinkEl.href = config.instagram_url || defaultConfig.instagram_url;
+      }
+
+      // Apply colors
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+
+      document.body.style.background = backgroundColor;
+      document.body.style.color = textColor;
+
+      // Update header gradient
+      const header = document.querySelector('.header');
+      if (header) {
+        header.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+      }
+      
+      // Update main scroll background (should be white or the configured content color)
+      const mainScroll = document.querySelector('.main-content-scroll');
+      if (mainScroll) {
+        mainScroll.style.background = `#fff`; // 內容區域強制設為白色
+      }
+
+      // Update all cards
+      document.querySelectorAll('.card h2').forEach(el => {
+        el.style.color = primaryColor;
+      });
+
+      // Update price items
+      document.querySelectorAll('.price-item').forEach(el => {
+        el.style.borderLeftColor = primaryColor;
+        el.style.background = accentColor;
+      });
+
+      document.querySelectorAll('.price-item h4').forEach(el => {
+        el.style.color = primaryColor;
+      });
+
+      document.querySelectorAll('.price-sale').forEach(el => {
+        el.style.color = primaryColor;
+      });
+
+      // Update badges
+      document.querySelectorAll('.badge').forEach(el => {
+        el.style.background = primaryColor;
+      });
+
+      // Update step numbers
+      document.querySelectorAll('.step-number').forEach(el => {
+        el.style.background = primaryColor;
+      });
+
+      document.querySelectorAll('.step').forEach(el => {
+        el.style.background = accentColor;
+      });
+
+      // Update care cards
+      document.querySelectorAll('.care-card').forEach(el => {
+        el.style.borderLeftColor = primaryColor;
+        el.style.background = `linear-gradient(135deg, ${accentColor} 0%, ${backgroundColor} 100%)`;
+      });
+
+      document.querySelectorAll('.care-card h4').forEach(el => {
+        el.style.color = primaryColor;
+      });
+
+      // Update active tab
+      const activeTab = document.querySelector('.tab.active');
+      if (activeTab) {
+        activeTab.style.color = primaryColor;
+        activeTab.style.borderBottomColor = primaryColor;
+        activeTab.style.background = backgroundColor;
+      }
+
+      // Update accordion active state
+      document.querySelectorAll('.accordion-header.active').forEach(el => {
+        el.style.background = primaryColor;
+      });
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig: defaultConfig,
+        onConfigChange: onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => {
+                config.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_color || defaultConfig.secondary_color,
+              set: (value) => {
+                config.secondary_color = value;
+                window.elementSdk.setConfig({ secondary_color: value });
+              }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                config.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['company_name', config.company_name || defaultConfig.company_name],
+          ['tagline', config.tagline || defaultConfig.tagline],
+          ['line_url', config.line_url || defaultConfig.line_url],
+          ['instagram_url', config.instagram_url || defaultConfig.instagram_url]
+        ])
+      });
+    }
+
+    // Tab switching
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const scrollContainer = document.querySelector('.main-content-scroll'); // **關鍵：獲取新的滾動容器**
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const targetTab = tab.getAttribute('data-tab');
+        
+        // Remove active class from all tabs
+        tabs.forEach(t => t.classList.remove('active'));
+        tabContents.forEach(tc => tc.classList.remove('active'));
+        
+        // Add active class to clicked tab
+        tab.classList.add('active');
+        document.getElementById(targetTab).classList.add('active');
+
+        // **修改滾動目標：滾動到內容區域頂部**
+        if (scrollContainer) {
+          scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Accordion functionality
+    const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+    accordionHeaders.forEach(header => {
+      header.addEventListener('click', () => {
+        const content = header.nextElementSibling;
+        const isActive = header.classList.contains('active');
+        
+        // Close all accordions
+        accordionHeaders.forEach(h => {
+          h.classList.remove('active');
+          h.nextElementSibling.classList.remove('active');
+        });
+        
+        // Open clicked accordion if it was closed
+        if (!isActive) {
+          header.classList.add('active');
+          content.classList.add('active');
+        }
+      });
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a886d4b25de6b62',t:'MTc2NDgyMTE0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
