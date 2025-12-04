@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-Hant">
+ <head>
+  <meta charset="UTF-8">
+  <title>美容服務資訊展示頁</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script><!-- Canva SDKs -->
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* 自訂滾動條，維持溫柔風格 */
+    .app-wrapper::-webkit-scrollbar {
+      width: 8px;
+    }
+    .app-wrapper::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .app-wrapper::-webkit-scrollbar-thumb {
+      background-color: rgba(107, 93, 84, 0.35);
+      border-radius: 9999px;
+    }
+
+    /* Tab 切換淡入動畫 */
+    .fade-enter {
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 250ms ease, transform 250ms ease;
+    }
+    .fade-enter-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* FAQ 手風琴動畫 */
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 260ms ease;
+    }
+    .accordion-content.open {
+      max-height: 500px; /* 以百分比高度為主，這裡只是內容內部的 max-height，不用視窗單位 */
+    }
+
+    /* 可視焦點樣式 */
+    .focus-ring:focus-visible {
+      outline: 2px solid #f5cda1;
+      outline-offset: 2px;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body>
+  <div id="app-root" class="app-wrapper w-full h-full bg-[#faf7f4] text-[#6b5d54]">
+   <header id="page-header" class="w-full sticky top-0 z-30 bg-[#faf7f4]/95 backdrop-blur border-b border-[#c9bdb0]/40">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+     <div class="flex flex-col min-w-0">
+      <h1 id="company-name" class="text-lg font-semibold truncate">柔光美學沙龍</h1>
+      <p id="tagline" class="text-xs sm:text-sm text-[#6b5d54]/80 truncate">讓每一次療程，都是溫柔好好愛自己的一天</p>
+     </div>
+     <nav class="flex items-center gap-2 shrink-0" aria-label="社群連結"><a id="line-link" href="https://line.me" target="_blank" rel="noopener noreferrer" class="focus-ring inline-flex items-center gap-1 rounded-full bg-[#c9bdb0] px-3 py-1.5 text-xs sm:text-sm font-medium text-[#faf7f4] shadow-sm hover:bg-[#d9cec3] transition"> <span>💬</span><span>LINE</span> </a> <a id="ig-link" href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="focus-ring inline-flex items-center gap-1 rounded-full border border-[#c9bdb0] bg-[#faf7f4] px-3 py-1.5 text-xs sm:text-sm font-medium text-[#6b5d54] shadow-sm hover:bg-[#f5f0eb] transition"> <span>📸</span><span>Instagram</span> </a>
+     </nav>
+    </div><!-- Tab 導覽列 -->
+    <div class="w-full border-t border-[#c9bdb0]/40 bg-[#faf7f4]">
+     <div class="max-w-4xl mx-auto px-2 sm:px-4">
+      <div id="tab-list" class="flex overflow-x-auto no-scrollbar text-xs sm:text-sm font-medium" role="tablist" aria-label="美容服務資訊分頁"><button class="focus-ring tab-button flex-1 whitespace-nowrap px-3 py-2 sm:px-4 sm:py-2.5 border-b-2 border-transparent text-[#6b5d54] hover:bg-[#f5f0eb] transition" data-tab="pricing" role="tab" aria-selected="true"> 💰 價目表 </button> <button class="focus-ring tab-button flex-1 whitespace-nowrap px-3 py-2 sm:px-4 sm:py-2.5 border-b-2 border-transparent text-[#6b5d54] hover:bg-[#f5f0eb] transition" data-tab="booking" role="tab" aria-selected="false"> 📋 預約須知 </button> <button class="focus-ring tab-button flex-1 whitespace-nowrap px-3 py-2 sm:px-4 sm:py-2.5 border-b-2 border-transparent text-[#6b5d54] hover:bg-[#f5f0eb] transition" data-tab="faq" role="tab" aria-selected="false"> ❓ 常見問題 </button> <button class="focus-ring tab-button flex-1 whitespace-nowrap px-3 py-2 sm:px-4 sm:py-2.5 border-b-2 border-transparent text-[#6b5d54] hover:bg-[#f5f0eb] transition" data-tab="aftercare" role="tab" aria-selected="false"> 💆 術後照顧 </button> <button class="focus-ring tab-button flex-1 whitespace-nowrap px-3 py-2 sm:px-4 sm:py-2.5 border-b-2 border-transparent text-[#6b5d54] hover:bg-[#f5f0eb] transition" data-tab="precare" role="tab" aria-selected="false"> ⚠️ 術前準備 </button>
+      </div>
+     </div>
+    </div>
+   </header>
+   <main class="w-full h-full">
+    <div class="max-w-4xl mx-auto px-4 pb-6 pt-4"><!-- 價目表 -->
+     <section id="panel-pricing" class="tab-panel fade-enter-active" role="tabpanel" aria-label="價目表">
+      <div class="space-y-4">
+       <div class="flex items-center justify-between gap-2">
+        <h2 id="price-title" class="text-lg sm:text-xl font-semibold">💰 服務價目表</h2><span class="inline-flex items-center gap-1 rounded-full bg-[#f5f0eb] px-3 py-1 text-xs text-[#6b5d54]"> 💡 會員價以小字顯示 </span>
+       </div><!-- 重要提醒 -->
+       <div class="rounded-xl border border-[#c9bdb0] bg-[#f5f0eb] px-4 py-3 flex gap-3 items-start text-xs sm:text-sm">
+        <div class="mt-0.5 text-base">
+         ⚠️
+        </div>
+        <div>
+         <p class="font-medium mb-1">價格僅供參考，實際費用以膚況評估後為主。</p>
+         <p class="text-[#6b5d54]/80">若有客製化需求或組合療程，歡迎透過 LINE 與我們討論最適合你的方案。</p>
+        </div>
+       </div><!-- 範例價目表：可直接整塊改成你自己的內容 -->
+       <div class="grid gap-4 sm:grid-cols-2"><!-- 類別：臉部保養 -->
+        <article class="rounded-2xl bg-[#faf7f4] border border-[#d9cec3] shadow-sm px-4 py-3.5 space-y-3">
+         <h3 class="text-sm font-semibold flex items-center gap-1.5">✨ 臉部保養</h3>
+         <ul class="space-y-2 text-xs sm:text-sm">
+          <li class="flex items-baseline justify-between gap-2">
+           <div>
+            <p class="font-medium">基礎深層清潔保養</p>
+            <p class="text-[11px] text-[#6b5d54]/80">約 60 分鐘｜適合首次體驗</p>
+           </div>
+           <div class="text-right">
+            <p class="font-semibold">$1,800</p>
+            <p class="text-[11px] text-[#6b5d54]/70">會員價 $1,500</p>
+           </div></li>
+          <li class="flex items-baseline justify-between gap-2">
+           <div>
+            <p class="font-medium">光采修護舒敏課程</p>
+            <p class="text-[11px] text-[#6b5d54]/80">約 75 分鐘｜敏感肌適用</p>
+           </div>
+           <div class="text-right">
+            <p class="font-semibold">$2,600</p>
+            <p class="text-[11px] text-[#6b5d54]/70">會員價 $2,200</p>
+           </div></li>
+         </ul>
+        </article><!-- 類別：醫美／雷射（示意） -->
+        <article class="rounded-2xl bg-[#faf7f4] border border-[#d9cec3] shadow-sm px-4 py-3.5 space-y-3">
+         <h3 class="text-sm font-semibold flex items-center gap-1.5">💡 醫美療程（示意）</h3>
+         <ul class="space-y-2 text-xs sm:text-sm">
+          <li class="flex items-baseline justify-between gap-2">
+           <div>
+            <p class="font-medium">淨膚雷射</p>
+            <p class="text-[11px] text-[#6b5d54]/80">膚色暗沉／毛孔粗大</p>
+           </div>
+           <div class="text-right">
+            <p class="font-semibold">$3,500</p>
+            <p class="text-[11px] text-[#6b5d54]/70">會員價 $3,000</p>
+           </div></li>
+          <li class="flex items-baseline justify-between gap-2">
+           <div>
+            <p class="font-medium">飛梭雷射</p>
+            <p class="text-[11px] text-[#6b5d54]/80">痘疤／凹洞改善</p>
+           </div>
+           <div class="text-right">
+            <p class="font-semibold">$6,800</p>
+            <p class="text-[11px] text-[#6b5d54]/70">會員價 $6,000</p>
+           </div></li>
+         </ul>
+        </article><!-- 類別：身體課程 -->
+        <article class="rounded-2xl bg-[#faf7f4] border border-[#d9cec3] shadow-sm px-4 py-3.5 space-y-3">
+         <h3 class="text-sm font-semibold flex items-center gap-1.5">🧸 身體課程</h3>
+         <ul class="space-y-2 text-xs sm:text-sm">
+          <li class="flex items-baseline justify-between gap-2">
+           <div>
+            <p class="font-medium">舒壓精油芳療</p>
+            <p class="text-[11px] text-[#6b5d54]/80">約 90 分鐘｜全身放鬆</p>
+           </div>
+           <div class="text-right">
+            <p class="font-semibold">$2,800</p>
+            <p class="text-[11px] text-[#6b5d54]/70">會員價 $2,400</p>
+           </div></li>
+          <li class="flex items-baseline justify-between gap-2">
+           <div>
+            <p class="font-medium">曲線雕塑課程</p>
+            <p class="text-[11px] text-[#6b5d54]/80">局部加強｜一次一部位</p>
+           </div>
+           <div class="text-right">
+            <p class="font-semibold">$3,200</p>
+            <p class="text-[11px] text-[#6b5d54]/70">會員價 $2,800</p>
+           </div></li>
+         </ul>
+        </article><!-- 類別：其他 -->
+        <article class="rounded-2xl bg-[#faf7f4] border border-[#d9cec3] shadow-sm px-4 py-3.5 space-y-3">
+         <h3 class="text-sm font-semibold flex items-center gap-1.5">🎁 加值服務</h3>
+         <ul class="space-y-2 text-xs sm:text-sm">
+          <li class="flex items-baseline justify-between gap-2">
+           <div>
+            <p class="font-medium">客製化療程規劃</p>
+            <p class="text-[11px] text-[#6b5d54]/80">依個人預算與需求搭配</p>
+           </div>
+           <div class="text-right">
+            <p class="font-semibold text-sm">依現場評估</p>
+           </div></li>
+          <li class="flex items-baseline justify-between gap-2">
+           <div>
+            <p class="font-medium">全年療程規劃卡</p>
+            <p class="text-[11px] text-[#6b5d54]/80">穩定維持膚況最佳選擇</p>
+           </div>
+           <div class="text-right">
+            <p class="font-semibold">$請洽現場</p>
+           </div></li>
+         </ul>
+        </article>
+       </div>
+      </div>
+     </section><!-- 預約須知 -->
+     <section id="panel-booking" class="tab-panel hidden" role="tabpanel" aria-label="預約須知">
+      <div class="space-y-5">
+       <h2 id="booking-title" class="text-lg sm:text-xl font-semibold flex items-center gap-1.5">📋 預約須知</h2><!-- 預約流程 -->
+       <section aria-labelledby="booking-flow-title" class="space-y-3">
+        <h3 id="booking-flow-title" class="text-sm font-semibold flex items-center gap-1.5">🪄 預約流程（4 步驟）</h3>
+        <ol class="grid gap-3 sm:grid-cols-2">
+         <li class="rounded-2xl bg-[#faf7f4] border border-[#d9cec3] px-4 py-3 flex gap-3">
