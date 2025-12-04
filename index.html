@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美業服務資訊</title>
+    <style>
+        /* 整體風格：溫柔簡約、米白裸色系 */
+        body {
+            font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
+            background-color: #fcf8f5; /* 淺米白色背景 */
+            color: #4a4a4a; /* 深灰文字 */
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* 卡片式區塊 */
+        .card {
+            background-color: #ffffff; /* 白色卡片底色 */
+            border-radius: 15px; /* 圓角 */
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* 輕微陰影 */
+            border: 1px solid #efe6e1; /* 極淺裸色邊框 */
+        }
+
+        /* 標題風格 */
+        h2, h3 {
+            color: #bfa192; /* 溫柔裸色系標題 */
+            border-bottom: 2px solid #e0c8bf;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        /* 導航列 (分頁選單) */
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            padding: 10px 0;
+            background-color: #f8f0eb; /* 淺底色 */
+            border-radius: 15px;
+        }
+
+        .tab-item {
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            color: #bfa192;
+            transition: background-color 0.3s;
+        }
+
+        .tab-item:hover, .tab-item.active {
+            background-color: #e8dcd5; /* 選中/懸停效果 */
+            color: #4a4a4a;
+        }
+
+        /* 內容列表 */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #ede5e1;
+        }
+
+        .note {
+            background-color: #fff4f0; /* 突出小提醒 */
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 5px solid #d49380;
+            margin-top: 20px;
+            font-style: italic;
+        }
+        
+        /* 底部按鈕 */
+        .footer-nav {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #e0c8bf;
+            margin-top: 30px;
+        }
+        .footer-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 10px;
+            background-color: #d49380;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .footer-button:hover {
+            background-color: #bfa192;
+        }
+        
+        /* 新增：統一隱藏內容區塊的樣式 */
+        .content-area {
+            display: none; /* 預設全部隱藏 */
+        }
+        /* 新增：只顯示被啟用的內容區塊 */
+        .content-area.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="note">
+        規章只是避免麻煩，減少之間的誤會糾紛❤️
+    </div>
+
+    <div class="tabs">
+        <div class="tab-item active" data-tab="price">💰 價格方案</div>
+        <div class="tab-item" data-tab="time">⏰ 時間規範</div>
+        <div class="tab-item" data-tab="reschedule">🔄 改約規範</div>
+        <div class="tab-item" data-tab="contact">📍 聯繫方式</div>
+    </div>
+
+    <div id="price" class="content-area active"> 
+        <div class="card">
+            <h3>✨ 十二月年前最後一波！</h3>
+            <p style="color: #d49380; font-weight: bold;">*此特殊活動無法使用其他折扣</p>
+
+            <div class="card" style="background-color: #fcf4f1;">
+                <h4>主理人 老師</h4>
+                <p style="font-size: 1.5em; color: #d49380; font-weight: bold;">$9,600 <span style="font-size: 0.7em; color: #bfa192;">(原價 $12,000)</span></p>
+                <ul>
+                    <li>✅ 全額付清享 98折</li>
+                    <li>✅ 12/8 前早鳥價折 $500</li>
+                    <li>🎁 贈：手部光療美甲單色 (不含卸)</li>
+                    <li>🎁 贈：2025 獨家附贈「人類圖解讀+卡牌解惑一問」 (價值 $3000+)</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h4>小菁 實習 (非小白)</h4>
+                <p style="font-size: 1.2em; color: #bfa192;">$2,500 含補色</p>
+                <ul>
+                    <li>✅ 作品麻豆、考核麻豆</li>
+                    <li>✅ 考核當次隔月補色考核</li>
+                    <li>✅ 享有終身方案 ✨</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h4>小余 實習 (非小白)</h4>
+                <p style="font-size: 1.2em; color: #bfa192;">$1,500 含補色</p>
+                <ul>
+                    <li>✅ 作品麻豆、考核麻豆</li>
+                    <li>✅ 考核當次隔月補色考核</li>
+                    <li>✅ 享有終身方案 ✨</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="time" class="content-area">
+        <div class="card">
+            <h3>⏰ 預約及服務時間規範</h3>
+            <ul>
+                <li>⏱️ **預約時長計算：** 所有服務皆需預留 3-4 小時，請勿在預約前後安排緊湊行程。</li>
+                <li>遲到超過 15 分鐘，為維護下一位客人權益，將自動視為取消，並沒收訂金。</li>
+                <li>本店採預約制，無故未到者將列入黑名單。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="reschedule" class="content-area">
+        <div class="card">
+            <h3>🔄 訂金與改期/取消說明</h3>
+            <ul>
+                <li>💰 **訂金機制：** 預約服務需支付 $1,000 訂金，訂金僅保留檔期，無法折抵服務費用。</li>
+                <li>🗓️ **改期/取消：** 請於原預約日期前 **72 小時 (3天)** 聯繫告知。</li>
+                <li>若未在 72 小時前告知，訂金將全數沒收。</li>
+                <li>每組訂金限改期一次，第二次改期需重新支付訂金。</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="contact" class="content-area">
+        <div class="card">
+            <h3>📍 聯繫與地址資訊</h3>
+            <ul>
+                <li>📱 **官方 Line：** @XXXXX (請務必加 @)</li>
+                <li>📸 **Instagram：** @YourHandle</li>
+                <li>🗺️ **工作室地址：** 捷運 OOO 站 (詳細地址將於預約成功後提供)</li>
+            </ul>
+            <p class="note">⚠️ 工作室採隱私制，請勿在未告知情況下自行前往。</p>
+        </div>
+    </div>
+    
+    <div class="footer-nav">
+        <a href="#price" class="footer-button" onclick="showTab('price')">返回首頁</a>
+        <a href="https://your.instagram.com" target="_blank" class="footer-button">聯繫 IG 💌</a>
+        <a href="https://your.line.me" target="_blank" class="footer-button">聯繫 LINE 💬</a>
+    </div>
+    
+    <script>
+        // 確保網頁內容載入完成後才執行
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab-item');
+            const contents = document.querySelectorAll('.content-area');
+
+            // 預設顯示第一個分頁
+            const defaultTabId = 'price';
+            document.getElementById(defaultTabId).classList.add('active');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-tab');
+
+                    // 移除所有標籤和內容的 active 狀態
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+
+                    // 為被點擊的標籤和對應內容添加 active 狀態
+                    this.classList.add('active');
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+
+            // 底部按鈕導航功能
+            window.showTab = function(targetId) {
+                // 移除所有標籤和內容的 active 狀態
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(c => c.classList.remove('active'));
+                
+                // 啟用對應的分頁和內容
+                document.querySelector(`.tab-item[data-tab="${targetId}"]`).classList.add('active');
+                document.getElementById(targetId).classList.add('active');
+                
+                // 讓畫面滾動到頂部
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+    </script>
+
+</body>
+</html>
